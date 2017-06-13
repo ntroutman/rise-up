@@ -2,7 +2,7 @@ export default class Necromancer {
   constructor(game) {
     this.game = game
     this.target = new Phaser.Point()
-    this.MOVE_SPEED
+    this.MOVE_SPEED = 150
   }
 
   preload() {
@@ -19,7 +19,7 @@ export default class Necromancer {
 
     sprite.anchor.setTo(0.5, 0.5)
 
-    const graphics = new Phaser.Graphics(this.game, 0, 0);
+    const graphics = this.graphics = new Phaser.Graphics(this.game, 0, 0);
     graphics.beginFill(0x000088, 1);
     graphics.drawCircle(0, 0, 50);
     graphics.endFill();
@@ -27,9 +27,7 @@ export default class Necromancer {
 
     sprite.addChild(graphics);
 
-
-    console.log(this.game, this.game.width, body.position.x)
-    //body.velocity.x = 10
+    this.minions = this.game.add.group()
   }
 
   moveTo(target) {
@@ -49,5 +47,10 @@ export default class Necromancer {
   update() {
     const sprite = this.sprite
     const body = sprite.body
+  }
+
+  attack(target) {
+    console.log('attacking', target)
+    target.damage(5, this)
   }
 }
