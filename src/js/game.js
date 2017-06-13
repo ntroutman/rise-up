@@ -1,5 +1,7 @@
 import 'babel-polyfill';
 
+import Necromancer from './necromancer.js'
+
 class GameState {
   constructor(game) {
     this.game = game;
@@ -10,21 +12,33 @@ class GameState {
     this.scale.scaleMode = Phaser.ScaleManager.NO_SCALE;
     this.scale.pageAlignHorizontally = true;
     this.scale.pageAlignVertically = true;
+
+    this.necromancer = new Necromancer(this.game);
   }
 
   // Load images and sounds
   preload() {
+    this.necromancer.preload();
   }
 
   // Setup the example
   create() {
+    this.game.stage.backgroundColor = 0x008800;
 
+    this.necromancer.create()
   }
 
   // The update() method is called every frame
   update() {
-
     this.handleNonPlayerKeys()
+
+    if (this.game.input.activePointer.leftButton.isDown) {
+      this.necromancer.moveTo(this.game.input.activePointer);
+    } else {
+      this.necromancer.stop()
+    }
+
+    this.necromancer.update()
 
   }
 
